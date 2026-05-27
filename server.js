@@ -188,19 +188,25 @@ app.post('/api/auth/login', (req, res) => {
   req.session.username = user.username;
   req.session.role = user.role;
 
-  const config = getAppConfig();
-  res.json({
-    success: true,
-    user: {
-      username: user.username,
-      role: user.role,
-      balance: user.balance
-    },
-    comboConfig: {
-      comboViewServer: config.comboViewServer || '60',
-      comboLikeServer: config.comboLikeServer || '29',
-      comboCmtServer: config.comboCmtServer || '62'
+  req.session.save((err) => {
+    if (err) {
+      console.error('Lỗi lưu session:', err);
+      return res.status(500).json({ error: 'Không thể khởi tạo phiên đăng nhập.' });
     }
+    const config = getAppConfig();
+    res.json({
+      success: true,
+      user: {
+        username: user.username,
+        role: user.role,
+        balance: user.balance
+      },
+      comboConfig: {
+        comboViewServer: config.comboViewServer || '60',
+        comboLikeServer: config.comboLikeServer || '29',
+        comboCmtServer: config.comboCmtServer || '62'
+      }
+    });
   });
 });
 
