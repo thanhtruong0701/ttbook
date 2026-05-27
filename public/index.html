@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TK Boost - Hệ Thống SMM Panel Tự Động Cao Cấp</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <div class="stars-container"></div>
+    <div class="glowing-orb orb-1"></div>
+    <div class="glowing-orb orb-2"></div>
+
+    <!-- MÀN HÌNH ĐĂNG NHẬP / ĐĂNG KÝ (Hiện khi chưa đăng nhập) -->
+    <div id="auth-screen" class="auth-overlay">
+        <div class="auth-card glass-card animate-scale">
+            <div class="auth-brand">
+                <div class="brand-logo pulse-glow">
+                    <i class="fa-brands fa-tiktok logo-icon"></i>
+                </div>
+                <h2>TK BOOST</h2>
+                <span>HỆ THỐNG SMM PANEL TỰ ĐỘNG</span>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form-container">
+                <form id="login-form" class="interactive-form">
+                    <h3>ĐĂNG NHẬP</h3>
+                    <div class="form-group">
+                        <label for="login-username"><i class="fa-solid fa-user"></i> Tên đăng nhập</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="login-username" required placeholder="Tên tài khoản của bạn">
+                            <span class="input-focus-border"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password"><i class="fa-solid fa-lock"></i> Mật khẩu</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="login-password" required placeholder="Mật khẩu bảo mật">
+                            <span class="input-focus-border"></span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <span>Đăng Nhập</span>
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                    </button>
+                    <p class="auth-toggle">Chưa có tài khoản? <a href="#" id="go-to-register">Đăng ký miễn phí</a></p>
+                </form>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-form-container" class="hidden">
+                <form id="register-form" class="interactive-form">
+                    <h3>ĐĂNG KÝ</h3>
+                    <div class="form-group">
+                        <label for="register-username"><i class="fa-solid fa-user"></i> Tên tài khoản</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="register-username" required placeholder="Nhập tên tài khoản">
+                            <span class="input-focus-border"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password"><i class="fa-solid fa-lock"></i> Mật khẩu</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="register-password" required placeholder="Tạo mật khẩu an toàn">
+                            <span class="input-focus-border"></span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary btn-pink">
+                        <span>Đăng Ký Tài Khoản</span>
+                        <i class="fa-solid fa-user-plus"></i>
+                    </button>
+                    <p class="auth-toggle">Đã có tài khoản? <a href="#" id="go-to-login">Đăng nhập ngay</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MÀN HÌNH CHÍNH (Hiện sau khi đăng nhập) -->
+    <div id="app-screen" class="app-container hidden">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo pulse-glow">
+                    <i class="fa-brands fa-tiktok logo-icon"></i>
+                </div>
+                <div class="brand-info">
+                    <h2>TK Boost</h2>
+                    <span id="user-role-badge">MEMBER</span>
+                </div>
+            </div>
+
+            <div class="user-wallet-card">
+                <div class="wallet-icon">
+                    <i class="fa-solid fa-wallet text-accent"></i>
+                </div>
+                <div class="wallet-details">
+                    <span>Số dư ví của bạn:</span>
+                    <strong id="user-balance">0đ</strong>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#services" class="nav-item active" data-tab="services">
+                    <i class="fa-solid fa-rocket"></i>
+                    <span>Tăng Dịch Vụ</span>
+                </a>
+                <a href="#combo" class="nav-item" data-tab="combo">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Tăng Combo Video</span>
+                </a>
+                <a href="#deposit" class="nav-item" data-tab="deposit">
+                    <i class="fa-solid fa-qrcode"></i>
+                    <span>Nạp Tiền Ví</span>
+                </a>
+                <a href="#orders" class="nav-item" data-tab="orders">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>Lịch Sử Đơn</span>
+                </a>
+                <a href="#transactions" class="nav-item" data-tab="transactions">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Biến Động Số Dư</span>
+                </a>
+                <!-- Admin Only Tab -->
+                <a href="#admin" class="nav-item hidden" id="nav-admin" data-tab="admin">
+                    <i class="fa-solid fa-user-gear"></i>
+                    <span>Quản Trị Admin</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <i class="fa-regular fa-circle-user avatar-icon"></i>
+                    <span id="user-profile-name">kene0701</span>
+                </div>
+                <button id="btn-logout" class="btn-logout" title="Đăng xuất tài khoản">
+                    <i class="fa-solid fa-power-off"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="welcome-text">
+                    <h1>Chào mừng quay lại, <span id="header-username">Thành viên</span></h1>
+                    <p>Hệ thống tự động hóa tăng tương tác MXH thông minh</p>
+                </div>
+                <div class="header-actions">
+                    <div class="live-clock">
+                        <i class="fa-regular fa-clock"></i>
+                        <span id="current-time">13:07:00</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Tab: Tăng dịch vụ (Động hoàn toàn) -->
+            <section id="tab-services" class="tab-content active">
+                <div class="grid-layout">
+                    <!-- Left: Form chọn dịch vụ -->
+                    <div class="card glass-card form-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fa-solid fa-circle-check text-accent"></i>
+                                <h3>Đặt Đơn Tăng Tương Tác</h3>
+                            </div>
+                            <span class="badge badge-accent">Auto 24/7</span>
+                        </div>
+
+                        <form id="order-form" class="interactive-form">
+                            <!-- Link MXH -->
+                            <div class="form-group">
+                                <label for="order-link"><i class="fa-solid fa-link"></i> Đường dẫn (Link Trang / Bài Viết / Video / UID)</label>
+                                <div class="input-wrapper">
+                                    <input type="url" id="order-link" required placeholder="Dán link bài viết, video, trang cá nhân hoặc kênh cần tăng">
+                                    <span class="input-focus-border"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <!-- Chọn Nền Tảng (Facebook, TikTok, Instagram...) -->
+                                <div class="form-group">
+                                    <label for="select-platform"><i class="fa-solid fa-circle-nodes"></i> Chọn Nền Tảng</label>
+                                    <div class="input-wrapper">
+                                        <select id="select-platform" class="custom-select">
+                                            <option value="">-- Đang tải nền tảng --</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Chọn loại dịch vụ (Tăng Follow, Tăng Like...) -->
+                                <div class="form-group">
+                                    <label for="select-category"><i class="fa-solid fa-layer-group"></i> Loại Dịch Vụ</label>
+                                    <div class="input-wrapper">
+                                        <select id="select-category" class="custom-select" disabled>
+                                            <option value="">-- Chọn Nền Tảng trước --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Chọn server/kênh -->
+                            <div class="form-group" style="margin-top: 1rem;">
+                                <label for="select-service"><i class="fa-solid fa-server"></i> Chọn Kênh (Server)</label>
+                                <div class="input-wrapper">
+                                    <select id="select-service" class="custom-select" disabled>
+                                        <option value="">-- Chọn Loại dịch vụ trước --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Chi tiết Server đã chọn -->
+                            <div id="service-detail-box" class="service-detail-box hidden">
+                                <h5>Mô tả Kênh (Server):</h5>
+                                <p id="service-description"></p>
+                                <span class="service-price">Đơn giá: <strong id="service-rate-text">0đ</strong> / tương tác</span>
+                            </div>
+
+                            <!-- Nhập bình luận (Chỉ hiện cho dịch vụ Comment) -->
+                            <div id="single-comment-group" class="form-group hidden" style="animation: fadeIn 0.3s ease; margin-top: 1rem;">
+                                <label for="single-comments"><i class="fa-solid fa-comments"></i> Nhập danh sách bình luận (Mỗi dòng một bình luận)</label>
+                                <div class="input-wrapper">
+                                    <textarea id="single-comments" rows="4" placeholder="Nhập các bình luận của bạn tại đây, mỗi dòng là một bình luận riêng biệt."></textarea>
+                                    <span class="input-focus-border"></span>
+                                </div>
+                            </div>
+
+                            <!-- Số phút xem Live (Chỉ hiện cho dịch vụ Livestream) -->
+                            <div id="single-live-group" class="form-group hidden" style="animation: fadeIn 0.3s ease; margin-top: 1rem;">
+                                <label for="single-live-minutes"><i class="fa-solid fa-hourglass-half"></i> Số phút duy trì mắt Live</label>
+                                <div class="input-wrapper">
+                                    <select id="single-live-minutes" class="custom-select">
+                                        <option value="30" selected>30 phút</option>
+                                        <option value="45">45 phút</option>
+                                        <option value="60">60 phút</option>
+                                        <option value="90">90 phút</option>
+                                        <option value="120">120 phút</option>
+                                        <option value="180">180 phút</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Nhập số lượng -->
+                            <div class="form-group" style="margin-top: 1rem;">
+                                <label for="order-quantity"><i class="fa-solid fa-users-viewfinder"></i> Số lượng</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="order-quantity" value="100" min="10" step="10" required>
+                                    <span class="input-focus-border"></span>
+                                </div>
+                            </div>
+
+                            <div class="cost-estimator-card">
+                                <div class="cost-item">
+                                    <span>Tổng chi phí của bạn:</span>
+                                    <strong id="order-total-cost" class="text-accent">~ 0đ</strong>
+                                </div>
+                                <div class="cost-item">
+                                    <span>Thời gian hoàn tất dự kiến:</span>
+                                    <strong class="text-success">Tự động (5 - 30 phút)</strong>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-primary" id="btn-submit-order">
+                                <span>Kích Hoạt Chạy Đơn Ngay</span>
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Right: Trình theo dõi trực quan -->
+                    <div class="card glass-card info-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fa-solid fa-chart-line text-success"></i>
+                                <h3>Trình Theo Dõi Trực Quan</h3>
+                            </div>
+                            <span class="badge badge-success">Live Status</span>
+                        </div>
+
+                        <div class="target-profile-preview">
+                            <div class="avatar-placeholder">
+                                <i class="fa-solid fa-rocket"></i>
+                            </div>
+                            <div class="profile-details">
+                                <h4 id="preview-order-link">Kênh Của Bạn</h4>
+                                <p>Số lượng: <span class="text-accent" id="preview-order-qty">0</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Active Order Status Tracking -->
+                        <div class="active-tracker-container" id="order-active-tracker">
+                            <div class="no-active-order">
+                                <i class="fa-solid fa-circle-notch fa-spin text-muted spacer-b"></i>
+                                <p>Chưa có đơn hàng nào đang theo dõi</p>
+                                <span>Đặt đơn mới ở khung bên trái hoặc bấm nút "Theo dõi" ở lịch sử đơn bên dưới để xem tiến trình.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: Tăng Combo Video TikTok -->
+            <section id="tab-combo" class="tab-content">
+                <div class="grid-layout">
+                    <!-- Left: Form chọn Combo & Đặt hàng -->
+                    <div class="card glass-card form-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fa-solid fa-wand-magic-sparkles text-accent"></i>
+                                <h3>Đặt Đơn Combo Siêu Tốc</h3>
+                            </div>
+                            <span class="badge badge-accent">3-in-1 Auto</span>
+                        </div>
+
+                        <form id="combo-order-form" class="interactive-form">
+                            <!-- Link Video TikTok -->
+                            <div class="form-group">
+                                <label for="combo-link"><i class="fa-brands fa-tiktok"></i> Đường dẫn (Link Video TikTok)</label>
+                                <div class="input-wrapper">
+                                    <input type="url" id="combo-link" required placeholder="Dán link video TikTok cần tăng vào đây">
+                                    <span class="input-focus-border"></span>
+                                </div>
+                                <small class="form-help">Ví dụ: https://www.tiktok.com/@username/video/1234567890123456789</small>
+                            </div>
+
+                            <!-- Chọn gói Combo (Custom Cards) -->
+                            <div class="form-group">
+                                <label><i class="fa-solid fa-cubes"></i> Chọn Gói Combo Tiết Kiệm</label>
+                                <div class="combo-cards-container">
+                                    <div class="combo-card active" data-combo="bronze">
+                                        <div class="combo-badge bronze-badge"><i class="fa-solid fa-medal"></i> Gói Đồng</div>
+                                        <div class="combo-title">Khởi Nghiệp Viral</div>
+                                        <div class="combo-details">
+                                            <div class="combo-detail-item"><i class="fa-solid fa-eye text-accent"></i> 1,000 Views</div>
+                                            <div class="combo-detail-item"><i class="fa-solid fa-heart text-pink"></i> 100 Tim</div>
+                                            <div class="combo-detail-item"><i class="fa-solid fa-comment text-success"></i> 5 Bình luận</div>
+                                        </div>
+                                        <div class="combo-price-tag" id="price-bronze">... đ</div>
+                                    </div>
+                                    <div class="combo-card" data-combo="silver">
+                                        <div class="combo-badge silver-badge"><i class="fa-solid fa-medal"></i> Gói Bạc</div>
+                                        <div class="combo-title">Bứt Phá</div>
+                                        <div class="combo-details">
+                                            <div class="combo-detail-item"><i class="fa-solid fa-eye text-accent"></i> 5,000 Views</div>
+                                            <div class="combo-detail-item"><i class="fa-solid fa-heart text-pink"></i> 300 Tim</div>
+                                            <div class="combo-detail-item"><i class="fa-solid fa-comment text-success"></i> 10 Bình luận</div>
+                                        </div>
+                                        <div class="combo-price-tag" id="price-silver">... đ</div>
+                                    </div>
+                                    <div class="combo-card" data-combo="gold">
+                                        <div class="combo-badge gold-badge"><i class="fa-solid fa-medal"></i> Gói Vàng</div>
+                                        <div class="combo-title">Lên Xu Hướng</div>
+                                        <div class="combo-details">
+                                            <div class="combo-detail-item"><i class="fa-solid fa-eye text-accent"></i> 10,000 Views</div>
+                                            <div class="combo-detail-item"><i class="fa-solid fa-heart text-pink"></i> 500 Tim</div>
+                                            <div class="combo-detail-item"><i class="fa-solid fa-comment text-success"></i> 20 Bình luận</div>
+                                        </div>
+                                        <div class="combo-price-tag" id="price-gold">... đ</div>
+                                    </div>
+                                    <div class="combo-card" data-combo="custom">
+                                        <div class="combo-badge gold-badge" style="background: rgba(0, 242, 254, 0.08); color: var(--accent-cyan); border-color: rgba(0, 242, 254, 0.2);"><i class="fa-solid fa-sliders"></i> Tự Chọn</div>
+                                        <div class="combo-title">Tự Định Nghĩa</div>
+                                        <div class="combo-details">
+                                            <div class="combo-detail-item"><i class="fa-solid fa-eye text-accent"></i> Views tùy ý</div>
+                                            <div class="combo-detail-item"><i class="fa-solid fa-heart text-pink"></i> Tims tùy ý</div>
+                                            <div class="combo-detail-item"><i class="fa-solid fa-comment text-success"></i> CMT tùy ý</div>
+                                        </div>
+                                        <div class="combo-price-tag" id="price-custom" style="font-size: 0.9rem;">Tự tính toán</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Khung nhập số lượng tùy chọn (Chỉ hiện khi chọn gói Tự Chọn) -->
+                            <div id="custom-combo-inputs" class="hidden" style="animation: fadeIn 0.3s ease; margin-bottom: 1.2rem;">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="custom-views"><i class="fa-solid fa-eye text-accent"></i> Số lượng Views</label>
+                                        <div class="input-wrapper">
+                                            <input type="number" id="custom-views" value="1000" min="0" step="100">
+                                            <span class="input-focus-border"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="custom-likes"><i class="fa-solid fa-heart text-pink"></i> Số lượng Tims</label>
+                                        <div class="input-wrapper">
+                                            <input type="number" id="custom-likes" value="100" min="0" step="10">
+                                            <span class="input-focus-border"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="custom-comments-count"><i class="fa-solid fa-comment text-success"></i> Số lượng Bình luận</label>
+                                        <div class="input-wrapper">
+                                            <input type="number" id="custom-comments-count" value="5" min="0" step="1">
+                                            <span class="input-focus-border"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Nhập bình luận riêng -->
+                            <div class="form-group">
+                                <label for="combo-comments"><i class="fa-solid fa-comments"></i> Bình luận tùy chọn (Mỗi dòng một bình luận)</label>
+                                <div class="input-wrapper">
+                                    <textarea id="combo-comments" rows="4" placeholder="Nhập bình luận của bạn tại đây, mỗi dòng là một bình luận riêng biệt.&#10;Nếu để trống, hệ thống sẽ tự động sử dụng danh sách bình luận tiếng Việt ngẫu nhiên vô cùng tích cực có sẵn!"></textarea>
+                                    <span class="input-focus-border"></span>
+                                </div>
+                                <small class="form-help">Số lượng bình luận nên tương ứng hoặc lớn hơn số bình luận của gói đã chọn.</small>
+                            </div>
+
+                            <div class="cost-estimator-card">
+                                <div class="cost-item">
+                                    <span>Tổng chi phí trọn gói:</span>
+                                    <strong id="combo-total-cost" class="text-accent">~ 0đ</strong>
+                                </div>
+                                <div class="cost-item">
+                                    <span>Tốc độ xử lý:</span>
+                                    <strong class="text-success">Chạy song song tự động (5 - 30 phút)</strong>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-primary btn-pink" id="btn-submit-combo">
+                                <span>Kích Hoạt Combo Đã Chọn</span>
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Right: Trình theo dõi Combo song song -->
+                    <div class="card glass-card info-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fa-solid fa-chart-line text-success"></i>
+                                <h3>Trình Theo Dõi Combo</h3>
+                            </div>
+                            <span class="badge badge-success">Combo Live Tracker</span>
+                        </div>
+
+                        <div class="target-profile-preview" id="combo-preview-profile">
+                            <div class="avatar-placeholder">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            </div>
+                            <div class="profile-details">
+                                <h4 id="preview-combo-link" style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Link Video TikTok</h4>
+                                <p>Gói đang chạy: <span class="text-accent" id="preview-combo-name">Chưa chọn</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Active Combo Status Tracking -->
+                        <div class="active-tracker-container" id="combo-active-tracker">
+                            <div class="no-active-order">
+                                <i class="fa-solid fa-circle-notch fa-spin text-muted spacer-b"></i>
+                                <p>Chưa có đơn Combo nào đang theo dõi</p>
+                                <span>Đặt đơn Combo mới ở khung bên trái để xem tiến trình tăng tương tác 3 luồng song song (Views, Tim, Cmt).</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: Nạp tiền ví qua VietQR -->
+            <section id="tab-deposit" class="tab-content">
+                <div class="grid-layout">
+                    <!-- Left: Form chọn số tiền -->
+                    <div class="card glass-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fa-solid fa-credit-card text-accent"></i>
+                                <h3>Nạp Tiền Ví Tự Động</h3>
+                            </div>
+                        </div>
+
+                        <form id="deposit-form" class="interactive-form">
+                            <div class="form-group">
+                                <label for="deposit-amount"><i class="fa-solid fa-coins"></i> Số tiền cần nạp (VND)</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="deposit-amount" value="20000" min="10000" step="5000" required placeholder="Nhập số tiền muốn nạp">
+                                    <span class="input-focus-border"></span>
+                                </div>
+                                <small class="form-help">Số tiền tối thiểu: 10.000đ. Nhập số tiền chẵn nghìn.</small>
+                            </div>
+
+                            <div class="deposit-presets">
+                                <button type="button" class="btn-preset" data-val="10000">10,000đ</button>
+                                <button type="button" class="btn-preset active" data-val="20000">20,000đ</button>
+                                <button type="button" class="btn-preset" data-val="50000">50,000đ</button>
+                                <button type="button" class="btn-preset" data-val="100000">100,000đ</button>
+                            </div>
+
+                            <button type="submit" class="btn-primary" id="btn-submit-deposit">
+                                <span>Tạo Mã QR Nạp Tiền</span>
+                                <i class="fa-solid fa-qrcode"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Right: Hiển thị VietQR thanh toán -->
+                    <div class="card glass-card" id="deposit-qr-card">
+                        <div class="no-qr-state text-center">
+                            <i class="fa-solid fa-receipt text-muted spacer-b" style="font-size: 2.2rem"></i>
+                            <h4>Chờ Tạo Mã Thanh Toán</h4>
+                            <p class="text-muted">Nhập số tiền bên trái và ấn tạo mã QR. Mã VietQR động chứa nội dung tự động sẽ xuất hiện tại đây.</p>
+                        </div>
+
+                        <div class="qr-active-state hidden text-center" id="qr-active-state">
+                            <h4 class="text-success mb-2">QUÉT MÃ ĐỂ THANH TOÁN</h4>
+                            <p class="text-muted mb-4">Vui lòng sử dụng App Ngân Hàng bất kỳ quét mã QR bên dưới.</p>
+
+                            <!-- VietQR Image Container -->
+                            <div class="qr-image-wrapper">
+                                <img src="" id="deposit-qr-image" alt="Mã VietQR Thanh Toán">
+                                <div class="qr-scanner-line"></div>
+                            </div>
+
+                            <div class="billing-details-box">
+                                <div class="bill-row">
+                                    <span>Ngân hàng:</span>
+                                    <strong id="bill-bank">---</strong>
+                                </div>
+                                <div class="bill-row">
+                                    <span>Số tài khoản:</span>
+                                    <strong id="bill-account">---</strong>
+                                </div>
+                                <div class="bill-row">
+                                    <span>Chủ tài khoản:</span>
+                                    <strong id="bill-name">---</strong>
+                                </div>
+                                <div class="bill-row highlight-row">
+                                    <span>Nội dung chuyển khoản:</span>
+                                    <div class="copy-field">
+                                        <strong id="bill-code" class="text-accent">---</strong>
+                                        <button class="btn-copy" id="btn-copy-code" title="Copy nội dung">
+                                            <i class="fa-regular fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Auto Checking Button -->
+                            <div class="deposit-checking-wrapper">
+                                <button class="btn-primary btn-check-payment" id="btn-check-payment">
+                                    <i class="fa-solid fa-spinner fa-spin"></i>
+                                    <span>Tôi Đã Chuyển Khoản - Kiểm Tra Ngay</span>
+                                </button>
+                                <span class="deposit-notice"><i class="fa-solid fa-shield-halved"></i> Hệ thống tự động duyệt cộng tiền sau khi kiểm tra giao dịch hoàn tất.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: Lịch sử đơn -->
+            <section id="tab-orders" class="tab-content">
+                <div class="card glass-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fa-solid fa-list-check text-accent"></i>
+                            <h3>Lịch Sử Giao Dịch Đã Đặt</h3>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã Đơn</th>
+                                    <th>Link TikTok / Kênh</th>
+                                    <th>Kênh Chạy</th>
+                                    <th>Số lượng</th>
+                                    <th>Khởi chạy</th>
+                                    <th>Còn lại</th>
+                                    <th>Tổng giá</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Thời Gian Đặt</th>
+                                    <th>Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-list-body">
+                                <tr>
+                                    <td colspan="10" class="text-center py-4 text-muted">Chưa có đơn hàng nào được ghi nhận.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: Biến động số dư -->
+            <section id="tab-transactions" class="tab-content">
+                <div class="card glass-card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fa-solid fa-clock-rotate-left text-accent"></i>
+                            <h3>Nhật Ký Biến Động Số Dư Ví</h3>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã giao dịch</th>
+                                    <th>Loại giao dịch</th>
+                                    <th>Số tiền</th>
+                                    <th>Nội dung</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Thời Gian</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactions-list-body">
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-muted">Chưa có nhật ký giao dịch nào.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: Quản Trị Admin (Hiện cho Admin) -->
+            <section id="tab-admin" class="tab-content">
+                <div class="grid-layout">
+                    <!-- Left: Cấu hình hệ thống & Lợi nhuận -->
+                    <div class="card glass-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fa-solid fa-gears text-accent"></i>
+                                <h3>Cấu Hình Hệ Thống & Cổng VietQR</h3>
+                            </div>
+                        </div>
+
+                        <form id="admin-settings-form" class="interactive-form">
+                            <!-- Tỷ lệ lãi -->
+                            <div class="form-group">
+                                <label for="admin-markup"><i class="fa-solid fa-percent text-success"></i> Tỷ Lệ Lợi Nhuận Bán Lại (Markup %)</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="admin-markup" min="0" max="500" required placeholder="Nhập % lãi cộng thêm">
+                                    <span class="input-focus-border"></span>
+                                </div>
+                                <small class="form-help">Ví dụ nhập 50, giá bán hiển thị trên web = Giá gốc SMM + 50% tiền lãi.</small>
+                            </div>
+
+                            <!-- Cấu hình ví nhận tiền ngân hàng VietQR -->
+                            <div class="form-group">
+                                <label for="admin-bank-id"><i class="fa-solid fa-building-columns"></i> Ngân hàng nhận tiền (Mã ID VietQR)</label>
+                                <div class="input-wrapper">
+                                    <input type="text" id="admin-bank-id" required placeholder="Ví dụ: mbbank, techcombank, vietcombank...">
+                                    <span class="input-focus-border"></span>
+                                </div>
+                                <small class="form-help">Xem đúng mã ngân hàng hỗ trợ VietQR (viết thường liền nhau, ví dụ: <code>mbbank</code>, <code>vietinbank</code>, <code>vcb</code>).</small>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="admin-bank-account"><i class="fa-solid fa-hashtag"></i> Số tài khoản ngân hàng</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" id="admin-bank-account" required placeholder="Nhập số tài khoản">
+                                        <span class="input-focus-border"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-bank-name"><i class="fa-solid fa-signature"></i> Tên chủ tài khoản</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" id="admin-bank-name" required placeholder="TÊN VIẾT HOA KHÔNG DẤU">
+                                        <span class="input-focus-border"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-api-key"><i class="fa-solid fa-key text-accent"></i> SMM Subgiare API Key</label>
+                                <div class="input-wrapper">
+                                    <input type="password" id="admin-api-key" placeholder="Nhập key mới để thay đổi hoặc để trống">
+                                    <span class="input-focus-border"></span>
+                                </div>
+                            </div>
+
+                            <!-- Cấu hình Server cho Combo -->
+                            <div class="form-row border-t pt-3" style="border-top: 1px dashed rgba(255,255,255,0.06); padding-top: 1rem;">
+                                <div class="form-group">
+                                    <label for="admin-combo-view-server"><i class="fa-solid fa-eye text-accent"></i> Server View (Combo)</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" id="admin-combo-view-server" required placeholder="Mặc định: 60">
+                                        <span class="input-focus-border"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-combo-like-server"><i class="fa-solid fa-heart text-pink"></i> Server Tim (Combo)</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" id="admin-combo-like-server" required placeholder="Mặc định: 29">
+                                        <span class="input-focus-border"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-combo-cmt-server"><i class="fa-solid fa-comment text-success"></i> Server CMT (Combo)</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" id="admin-combo-cmt-server" required placeholder="Mặc định: 62">
+                                        <span class="input-focus-border"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-primary">
+                                <span>Lưu Cài Đặt Hệ Thống</span>
+                                <i class="fa-solid fa-floppy-disk"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Right: Quản lý Số dư & Người Dùng -->
+                    <div class="card glass-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fa-solid fa-users-gear text-success"></i>
+                                <h3>Quản Lý Thành Viên & Nạp Ví</h3>
+                            </div>
+                        </div>
+
+                        <!-- Form cộng tiền thủ công -->
+                        <form id="admin-balance-form" class="interactive-form mb-4 border-b pb-4">
+                            <h5>Cộng/Trừ Tiền Thủ Công</h5>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="admin-select-user"><i class="fa-solid fa-user"></i> Chọn User</label>
+                                    <div class="input-wrapper">
+                                        <select id="admin-select-user" class="custom-select" required>
+                                            <option value="">-- Đang tải người dùng --</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-balance-amount"><i class="fa-solid fa-coins"></i> Số tiền (VND)</label>
+                                    <div class="input-wrapper">
+                                        <input type="number" id="admin-balance-amount" required placeholder="Ví dụ: 10000 hoặc -10000">
+                                        <span class="input-focus-border"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary btn-pink">
+                                <span>Thực hiện Điều Chỉnh Ví</span>
+                                <i class="fa-solid fa-wallet"></i>
+                            </button>
+                        </form>
+
+                        <!-- Danh sách thành viên rút gọn -->
+                        <h5>Thành Viên Hệ Thống</h5>
+                        <div class="table-container max-h-300">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Số dư</th>
+                                        <th>Vai trò</th>
+                                        <th>Ngày tham gia</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-users-list">
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted">Đang quét...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

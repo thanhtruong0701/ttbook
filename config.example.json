@@ -1,0 +1,12 @@
+{
+  "apiUrl": "https://subgiare.net.vn/api/v2",
+  "apiKey": "YOUR_SMM_API_KEY_HERE",
+  "defaultServiceId": "80",
+  "markupPercent": 30,
+  "bankId": "mbbank",
+  "bankAccount": "YOUR_BANK_ACCOUNT_HERE",
+  "bankName": "YOUR_BANK_ACCOUNT_NAME",
+  "comboViewServer": "60",
+  "comboLikeServer": "29",
+  "comboCmtServer": "62"
+}
